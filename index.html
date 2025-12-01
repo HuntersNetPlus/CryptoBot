@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const img = new Image();
         img.src = src;
     });
- 
+   document.getElementById("sbp").innerHTML = wallets.SBP;
     
     const wallets = {
         USDT_TRC20: "TLZu5cha5JvmJiMAtdswudzfMJjxAwH6WH",
@@ -438,8 +438,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ETH: "0xe1B6bEfAa7E23835b94950d38CfC160FBE876e52",
         LTC: "LS2Pg4V8AhaQ1FRweGUHfkBxtwFAbJ6Dpy",
         USDC: "0xe1B6bEfAa7E23835b94950d38CfC160FBE876e52",
-        SBP: "https://t.me/MaxSwapSupport"
+        SBP: '<a href="https://t.me/MaxSwapSupport" target="_blank">Перейдите по ссылке для оплаты</a>'
     };
+
+  
 
     function openScreen(id) {
         Object.values(screens).forEach(s => s.classList.remove('active'));
