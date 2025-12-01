@@ -353,6 +353,7 @@ body {
         <option value="BTC">BTC</option>
         <option value="ETH">ETH</option>
         <option value="LTC">LTC</option>
+        <option value="SBP">СБП</option>
     </select>
     
     <div style="color:#6ab2f2; margin-bottom:7px"><b>Сумма в этой валюте:</b> <b id="converted_amount">...</b></div>
@@ -435,7 +436,8 @@ document.addEventListener('DOMContentLoaded', () => {
         BTC: "bc1qvpzg2s44nnnpjqgqze2ppjtgdn6yltjlc2rjd4",
         ETH: "0xe1B6bEfAa7E23835b94950d38CfC160FBE876e52",
         LTC: "LS2Pg4V8AhaQ1FRweGUHfkBxtwFAbJ6Dpy",
-        USDC: "0xe1B6bEfAa7E23835b94950d38CfC160FBE876e52"
+        USDC: "0xe1B6bEfAa7E23835b94950d38CfC160FBE876e52",
+        SBP: "https://t.me/yourusername"
     };
 
     function openScreen(id) {
@@ -486,6 +488,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('wallet_address').innerText = wallets[cur] || '—';
 
+        if (cur === "SBP") {
+            // Конвертация USDT в рубли (примерный курс 95 RUB за 1 USDT)
+            const usdtToRub = 95;
+            const amountRub = (selected.price * usdtToRub).toFixed(2);
+            document.getElementById('converted_amount').innerText = `${amountRub} RUB`;
+            return;
+        }
+
         if (cur.startsWith("USDT")) {
             document.getElementById('converted_amount').innerText = `${selected.price} USDT`;
             return;
@@ -530,6 +540,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('copy_address').addEventListener('click', function() {
         const text = document.getElementById('wallet_address').innerText;
         if (!text || text === '—') return;
+        
+        // Для СБП открываем ссылку вместо копирования
+        const cur = document.getElementById("currency").value;
+        if (cur === "SBP" && text.startsWith("https://t.me/")) {
+            window.open(text, '_blank');
+            this.classList.add("copied");
+            setTimeout(() => this.classList.remove("copied"), 2000);
+            return;
+        }
+        
         navigator.clipboard.writeText(text).then(() => {
             this.classList.add("copied");
             setTimeout(() => this.classList.remove("copied"), 2000);
@@ -643,6 +663,8 @@ document.addEventListener('click', () => {
             }, 30);
         }
     }
+
+    
 
     // Конфетти
     function launchConfetti() {
