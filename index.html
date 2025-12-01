@@ -438,25 +438,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ETH: "0xe1B6bEfAa7E23835b94950d38CfC160FBE876e52",
         LTC: "LS2Pg4V8AhaQ1FRweGUHfkBxtwFAbJ6Dpy",
         USDC: "0xe1B6bEfAa7E23835b94950d38CfC160FBE876e52",
-        SBP: 'https://t.me/MaxSwapSupport'
+        SBP: 'Для оплаты пишите t.me/MaxSwapSupport'
     };
 
-
- // Функция для рендеринга выбранного метода
-  function renderPayment(method) {
-      const container = document.getElementById("wallet_address");
-      let value = wallets[method];
-
-      // Если это Telegram-ссылка, заменяем на анкор
-      if (value === "https://t.me/MaxSwapSupport") {
-          container.innerHTML = `<a href="${value}" target="_blank">Поддержка</a>`;
-      } else {
-          container.textContent = value;
-      }
-  }
-
-  // Пример: рендерим SBP
-  renderPayment("SBP");
+ 
       
 
     function openScreen(id) {
