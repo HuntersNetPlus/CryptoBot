@@ -366,7 +366,7 @@ body {
                 <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Objects/Money%20With%20Wings.webp?raw=true" style="width:70px;">
                 <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Symbols/Currency%20Exchange.webp?raw=true" style="width:70px;">
                 <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Objects/Identification%20Card.webp?raw=true" style="width:70px;"><br>
-                Карта будет активирована автоматически когда транзакция получит как минимум 4 подтверждения сети.
+                Карта будет активирована автоматически когда транзакция получит как минимум 4 подтверждения сети. <br> Последнее обновление статуса: <div id="status"></div>
             </span>
         </span>
     </div>
@@ -514,6 +514,14 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('converted_amount').innerText = "Ошибка загрузки курса";
         }
     }
+// Переменная времени
+    
+    document.getElementById("status").textContent =
+    "Последнее обновление: " +
+    new Date(Date.now() - 10 * 1000)
+      .toTimeString()
+      .slice(0, 8);
+}
 
     // Кнопка открытия
     document.getElementById('welcomeBtn').addEventListener('click', () => openScreen('choose'));
@@ -644,6 +652,8 @@ document.addEventListener('click', () => {
         }
     }
 
+    
+
     // Конфетти
     function launchConfetti() {
         confettiContainer.innerHTML = "";
@@ -675,6 +685,38 @@ document.addEventListener('click', () => {
         }
     }
 
+
+
+
+ // Форматирование времени в HH:MM:SS
+    function formatTime(d) {
+      const pad = n => String(n).padStart(2, '0');
+      return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
+
+    const statusEl = document.getElementById('status');
+    const btn = document.getElementById('refreshBtn');
+
+    btn.addEventListener('click', () => {
+      const now = new Date();
+
+      // ---- Вариант A: фиксированное количество секунд ----
+      // const offsetSeconds = 5; // <- используем ровно 5 секунд назад
+
+      // ---- Вариант B: случайно 5..10 секунд (раскомментируй если нужно) ----
+      const offsetSeconds = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
+
+      // Вычисляем "время обновления" как now - offsetSeconds
+      const shownTime = new Date(now.getTime() - offsetSeconds * 1000);
+
+      // Записываем текст — это будет **фиксированное** время, не обновляется автоматически
+      statusEl.textContent = `Последнее обновление: ${formatTime(shownTime)} (${offsetSeconds} с. назад)`;
+
+      // (Опционально) можно сохранить метку времени в data-атрибут, если нужно
+      statusEl.dataset.updatedAt = shownTime.toISOString();
+    }
+    
+
     // Слайдшоу
     const slides = document.querySelectorAll(".slide");
     let index = 0;
@@ -698,6 +740,9 @@ document.addEventListener('click', () => {
 }); // КОНЕЦ DOMContentLoaded
 
 </script>
+
+
+
 
 </body>
 </html>
