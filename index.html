@@ -537,14 +537,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Тултипы
-    document.querySelectorAll('.tooltip').forEach(t => {
-        t.addEventListener('click', function(e) {
-            this.classList.add('show');
-            setTimeout(() => {
-                this.classList.remove('show');
-            }, 9000);
+document.querySelectorAll('.tooltip').forEach(t => {
+    t.addEventListener('click', function(e) {
+        e.stopPropagation(); // не даём документу тут же закрыть
+
+        // Сначала закрываем все другие тултипы
+        document.querySelectorAll('.tooltip.show').forEach(open => {
+            if (open !== this) open.classList.remove('show');
         });
+
+        // Открываем текущий
+        this.classList.add('show');
     });
+});
+
+// Закрытие по клику вне
+document.addEventListener('click', () => {
+    document.querySelectorAll('.tooltip.show').forEach(t => {
+        t.classList.remove('show');
+    });
+});
 
     // ПРОМОКОД
     const VALID_PROMOS = ["VARLAMOV", "ВАРЛАМОВ", "КАЦ", "KATZ", "ФРОНТ", "СВОБОДА", "SWAP"];
