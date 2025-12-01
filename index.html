@@ -465,24 +465,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 250);
     }
 
-    async function updateConversion() {
-        const cur = document.getElementById("currency").value;
+  async function updateConversion() {
+    const cur = document.getElementById("currency").value;
 
-        const qEl = document.getElementById('qrcode');
-        qEl.innerHTML = "";
+    const qEl = document.getElementById('qrcode');
+    qEl.innerHTML = ""; // очищаем предыдущий QR
 
-        if (wallets[cur]) {
-            const qrSvg = kjua({
-                render: 'svg',
-                text: wallets[cur],
-                size: 250,
-                fill: '#6ab2f2',
-                back: 'transparent',
-                rounded: 0,
-                quiet: 1
-            });
-            qEl.appendChild(qrSvg);
-        }
+    if (cur === "SBP") {
+        // ссылка на аккаунт поддержки
+        const tgSupport = "https://t.me/SupportAccount";
+
+        // показываем ссылку в поле адреса
+        document.getElementById('wallet_address').innerHTML = `
+            <a href="${tgSupport}" target="_blank" style="color:#6ab2f2; text-decoration:underline;">
+                Связаться с поддержкой
+            </a>
+        `;
+
+        // генерируем QR-код для этой же ссылки
+        new QRCode(qEl, {
+            text: tgSupport,
+            width: 250,
+            height: 250,
+            colorDark: "#ffffff",
+            colorLight: "transparent",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        document.getElementById('converted_amount').innerText = selected.price + " RUB";
+        return; // выходим, остальной код для обычных валют не выполняется
+    }
 
         document.getElementById('wallet_address').innerText = wallets[cur] || '—';
 
