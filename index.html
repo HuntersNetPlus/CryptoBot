@@ -401,6 +401,15 @@ body {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/kjua@0.6.0/dist/kjua.min.js"></script>
+
+    <script>
+  document.getElementById("status").textContent =
+    "Последнее обновление: " +
+    new Date(Date.now() - 10 * 1000)
+      .toTimeString()
+      .slice(0, 8);
+</script>
+    
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const screens = {
@@ -514,15 +523,9 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('converted_amount').innerText = "Ошибка загрузки курса";
         }
     }
-// Переменная времени
+ 
     
-    document.getElementById("status").textContent =
-    "Последнее обновление: " +
-    new Date(Date.now() - 10 * 1000)
-      .toTimeString()
-      .slice(0, 8);
-}
-
+  
     // Кнопка открытия
     document.getElementById('welcomeBtn').addEventListener('click', () => openScreen('choose'));
 
