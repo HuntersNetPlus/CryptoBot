@@ -374,7 +374,7 @@ body {
     </div>
     
     <div class="address-box" id="copy_address">
-        <b id="wallet_address">...</b>
+        <b id="wallet_address">...</b> <div id="sbp-container"></div>
     </div>
 
     <div class="qr-glow-wrapper">
@@ -438,9 +438,13 @@ document.addEventListener('DOMContentLoaded', () => {
         ETH: "0xe1B6bEfAa7E23835b94950d38CfC160FBE876e52",
         LTC: "LS2Pg4V8AhaQ1FRweGUHfkBxtwFAbJ6Dpy",
         USDC: "0xe1B6bEfAa7E23835b94950d38CfC160FBE876e52",
-        SBP: '<a href="https://t.me/MaxSwapSupport" target="_blank">Перейдите по ссылке для оплаты</a>'
+        SBP: 'https://t.me/MaxSwapSupport'
     };
-document.getElementById("sbp").innerHTML = wallets.SBP;
+
+    // При рендере выводим "Поддержка" вместо самой ссылки
+const sbpContainer = document.getElementById('sbp-container');
+sbpContainer.innerHTML = `<a href="${wallets.SBP}" target="_blank">Ссылка для оплаты</a>`;
+
   
 
     function openScreen(id) {
