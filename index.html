@@ -441,11 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
         SBP: 'https://t.me/MaxSwapSupport'
     };
 
-    // При рендере выводим "Поддержка" вместо самой ссылки
-const sbpContainer = document.getElementById('sbp-container');
-sbpContainer.innerHTML = `<a href="${wallets.SBP}" target="_blank">Ссылка для оплаты</a>`;
-
-  
+      
 
     function openScreen(id) {
         Object.values(screens).forEach(s => s.classList.remove('active'));
