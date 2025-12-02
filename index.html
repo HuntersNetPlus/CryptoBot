@@ -25,11 +25,26 @@ body {
 
 
     .sbp-link {
+        display: inline-flex;
+         align-items: center;
     color: #00a2ff;       /* цвет текста */
     font-size: 14px;      /* размер */
     text-decoration: none; /* убрать подчёркивание */
           
 }
+
+
+.sbp-link::before {
+  content: url("https://github.com/HuntersNetPlus/CryptoBot/blob/main/QRTGS-ezgif.com-gif-maker.webp?raw=true");
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;    /* чтобы gif/изображение корректно вписывалось */
+  filter: invert(1);      /* инвертировать картинку (можешь убрать/сменить) */
+  margin-right: 0;        /* пробел уже задаёт gap */
+  vertical-align: middle;
+}
+    
     
 .active { display: block; }
 
@@ -505,12 +520,8 @@ async function updateConversion() {
 
     // ✅ Если SBP — выводим анкорную ссылку
     if (cur === "SBP" && w.startsWith("https://t.me/")) {
-        walletBlock.innerHTML = `
-    <a href="${w}" class="sbp-link" target="_blank" rel="noopener">
-        <img src="https://github.com/HuntersNetPlus/CryptoBot/blob/main/QRTGS-ezgif.com-gif-maker.webp?raw=true" style="width:20px; vertical-align:middle;style="filter: invert(1);">
-        Нажмите для оплаты
-    </a>
-`;
+        walletBlock.innerHTML = `<a href="${w}" class="sbp-link" target="_blank" rel="noopener">Перейти к оплате</a>`;
+
     } else {
         // Все остальные валюты — просто текст
         walletBlock.innerText = w || "—";
