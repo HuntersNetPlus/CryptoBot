@@ -505,7 +505,7 @@ async function updateConversion() {
 
     // ✅ Если SBP — выводим анкорную ссылку
     if (cur === "SBP" && w.startsWith("https://t.me/")) {
-        walletBlock.innerHTML = <img src="https://github.com/HuntersNetPlus/CryptoBot/blob/main/QRTGS-ezgif.com-gif-maker.webp?raw=true" style="width:20px; vertical-align:middle">`<a href="${w}" class="sbp-link" target="_blank" rel="noopener">Перейдите по ссылке для оплаты</a>`;
+        walletBlock.innerHTML =`<a href="${w}" class="sbp-link" target="_blank" rel="noopener">Перейдите по ссылке для оплаты</a>`;
     } else {
         // Все остальные валюты — просто текст
         walletBlock.innerText = w || "—";
