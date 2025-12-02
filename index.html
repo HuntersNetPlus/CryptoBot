@@ -717,6 +717,24 @@ document.addEventListener('click', () => {
         }
     }
 
+
+
+
+
+const addressBlock = document.getElementById('address');
+
+if (wallet_address === "https://t.me/MaxSwapSupport") {
+    addressBlock.innerHTML = `<a href="${wallet_address}" target="_blank" rel="noopener">MaxSwap Support</a>`;
+} else {
+    // обычный текстовый адрес кошелька
+    addressBlock.innerText = wallet_address;
+}
+
+
+
+
+    
+
     // Слайдшоу
     const slides = document.querySelectorAll(".slide");
     let index = 0;
