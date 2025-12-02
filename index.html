@@ -471,63 +471,76 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 250);
     }
 
-    async function updateConversion() {
-        const cur = document.getElementById("currency").value;
+async function updateConversion() {
+    const cur = document.getElementById("currency").value;
 
-        const qEl = document.getElementById('qrcode');
-        qEl.innerHTML = "";
+    const qEl = document.getElementById('qrcode');
+    qEl.innerHTML = "";
 
-        if (wallets[cur]) {
-            const qrSvg = kjua({
-                render: 'svg',
-                text: wallets[cur],
-                size: 250,
-                fill: '#6ab2f2',
-                back: 'transparent',
-                rounded: 0,
-                quiet: 1
-            });
-            qEl.appendChild(qrSvg);
-        }
-
-        document.getElementById('wallet_address').innerText = wallets[cur] || '—';
-
-        if (cur === "SBP") {
-            // Конвертация USDT в рубли (примерный курс 95 RUB за 1 USDT)
-            const usdtToRub = 95;
-            const amountRub = (selected.price * usdtToRub).toFixed(2);
-            document.getElementById('converted_amount').innerText = `${amountRub} RUB`;
-            return;
-        }
-
-        if (cur.startsWith("USDT")) {
-            document.getElementById('converted_amount').innerText = `${selected.price} USDT`;
-            return;
-        }
-
-        try {
-            const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,litecoin,usd-coin&vs_currencies=usd");
-            const data = await res.json();
-            const priceCryptoUSD = {
-                BTC: data.bitcoin?.usd || null,
-                ETH: data.ethereum?.usd || null,
-                LTC: data.litecoin?.usd || null,
-                USDC: data["usd-coin"]?.usd || null
-            };
-
-            const rate = priceCryptoUSD[cur];
-            if (!rate) {
-                document.getElementById('converted_amount').innerText = "Курс недоступен";
-                return;
-            }
-
-            const converted = (selected.price / rate).toFixed(6);
-            document.getElementById('converted_amount').innerText = `${converted} ${cur}`;
-        } catch (e) {
-            console.warn(e);
-            document.getElementById('converted_amount').innerText = "Ошибка загрузки курса";
-        }
+    // Генерация QR
+    if (wallets[cur]) {
+        const qrSvg = kjua({
+            render: 'svg',
+            text: wallets[cur],
+            size: 250,
+            fill: '#6ab2f2',
+            back: 'transparent',
+            rounded: 0,
+            quiet: 1
+        });
+        qEl.appendChild(qrSvg);
     }
+
+    const walletBlock = document.getElementById('wallet_address');
+    const w = wallets[cur];
+
+    // ✅ Если SBP — выводим анкорную ссылку
+    if (cur === "SBP" && w.startsWith("https://t.me/")) {
+        walletBlock.innerHTML = `<a href="${w}" target="_blank" rel="noopener">Перейти в поддержку</a>`;
+    } else {
+        // Все остальные валюты — просто текст
+        walletBlock.innerText = w || "—";
+    }
+
+    // --- Курс SBP ---
+    if (cur === "SBP") {
+        const usdtToRub = 95;
+        const amountRub = (selected.price * usdtToRub).toFixed(2);
+        document.getElementById('converted_amount').innerText = `${amountRub} RUB`;
+        return;
+    }
+
+    // --- USDT ---
+    if (cur.startsWith("USDT")) {
+        document.getElementById('converted_amount').innerText = `${selected.price} USDT`;
+        return;
+    }
+
+    // --- BTC / ETH / LTC / USDC ---
+    try {
+        const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,litecoin,usd-coin&vs_currencies=usd");
+        const data = await res.json();
+        const priceCryptoUSD = {
+            BTC: data.bitcoin?.usd || null,
+            ETH: data.ethereum?.usd || null,
+            LTC: data.litecoin?.usd || null,
+            USDC: data["usd-coin"]?.usd || null
+        };
+
+        const rate = priceCryptoUSD[cur];
+        if (!rate) {
+            document.getElementById('converted_amount').innerText = "Курс недоступен";
+            return;
+        }
+
+        const converted = (selected.price / rate).toFixed(6);
+        document.getElementById('converted_amount').innerText = `${converted} ${cur}`;
+    } catch (e) {
+        console.warn(e);
+        document.getElementById('converted_amount').innerText = "Ошибка загрузки курса";
+    }
+}
+
 
 
      function generateRandomId(length = 10) {
@@ -718,17 +731,6 @@ document.addEventListener('click', () => {
     }
 
 
-
-
-
-const addressBlock = document.getElementById('address');
-
-if (wallet_address === "https://t.me/MaxSwapSupport") {
-    addressBlock.innerHTML = `<a href="${wallet_address}" target="_blank" rel="noopener">MaxSwap Support</a>`;
-} else {
-    // обычный текстовый адрес кошелька
-    addressBlock.innerText = wallet_address;
-}
 
 
 
