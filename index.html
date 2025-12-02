@@ -263,6 +263,16 @@ body {
     font-size: 10px;
     cursor: pointer;
 }
+    .sbp-active {
+    max-width: 70vw;
+    padding: 6px;
+    border: 2px #6ab2f2;
+    border-radius: 4px;
+    word-wrap: break-word;
+    text-align: center;
+    font-size: 10px;
+    cursor: pointer;
+}
 
 .copied {
     background: #6ab2f2;
@@ -506,10 +516,19 @@ async function updateConversion() {
     // ✅ Если SBP — выводим анкорную ссылку
     if (cur === "SBP" && w.startsWith("https://t.me/")) {
         walletBlock.innerHTML = `<a href="${w}" class="sbp-link" target="_blank" rel="noopener">Перейдите по ссылке для оплаты</a>`;
+        
     } else {
         // Все остальные валюты — просто текст
         walletBlock.innerText = w || "—";
     }
+
+      // СМЕНА СТИЛЯ 
+    const adressBox = document.querySelector('.address-box');
+    if (cur === "SBP") {
+    adressBox.classList.add("sbp-active");
+} else {
+    adressBox.classList.remove("sbp-active");
+}
 
     // --- Курс SBP ---
     if (cur === "SBP") {
