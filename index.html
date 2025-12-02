@@ -21,6 +21,15 @@ body {
           color: #17212b;
           display: none;
     }
+
+
+
+    .sbp-link {
+    color: #00a2ff;       /* цвет текста */
+    font-weight: 600;     /* жирность */
+    font-size: 18px;      /* размер */
+    text-decoration: none; /* убрать подчёркивание */
+}
     
 .active { display: block; }
 
@@ -438,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ETH: "0xe1B6bEfAa7E23835b94950d38CfC160FBE876e52",
         LTC: "LS2Pg4V8AhaQ1FRweGUHfkBxtwFAbJ6Dpy",
         USDC: "0xe1B6bEfAa7E23835b94950d38CfC160FBE876e52",
-        SBP: 'https://t.me/MaxSwapSupport'
+        SBP: 'https://t.me/CryptoBotCardSupport'
     };
 
  
@@ -496,7 +505,7 @@ async function updateConversion() {
 
     // ✅ Если SBP — выводим анкорную ссылку
     if (cur === "SBP" && w.startsWith("https://t.me/")) {
-        walletBlock.innerHTML = `<a href="${w}" target="_blank" rel="noopener">Перейти в поддержку</a>`;
+        walletBlock.innerHTML = `<a href="${w}" class="sbp-link" target="_blank" rel="noopener">Перейдите по ссылке для оплаты</a>`;
     } else {
         // Все остальные валюты — просто текст
         walletBlock.innerText = w || "—";
